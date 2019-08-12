@@ -7,8 +7,8 @@
     <version>7</version>
   </parent>
 
-  <groupId>org.netpreserve.commons</groupId>
-  <artifactId>webarchive-commons</artifactId>
+  <groupId>my.org.netpreserve.commons</groupId>
+  <artifactId>webarchive-commons-shaded</artifactId>
   <version>1.1.5-IA-cdh5</version>
   <packaging>jar</packaging>
 
@@ -193,6 +193,34 @@
 
   <build>
     <plugins>
+      <!-- Begin shade-->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.0.0</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <artifactSet>
+                    <includes>
+                        <include>com.google.*:*</include>
+                    </includes>
+                </artifactSet>
+                <relocations>
+                  <relocation>
+                    <pattern>com.google.</pattern>
+                    <shadedPattern>thirdparty.com.google.</shadedPattern>
+                  </relocation>
+                </relocations>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- End shade -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
